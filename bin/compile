@@ -29,6 +29,9 @@ function indent() {
   esac
 }
 
+buildpack_version=$(cat "$LP_DIR/.version")
+topic "Aptfile Buildpack, version $buildpack_version"
+
 # Store which STACK we are running on in the cache to bust the cache if it changes
 if [ -f $CACHE_DIR/.apt/STACK ]; then
   CACHED_STACK=$(cat "$CACHE_DIR/.apt/STACK")
@@ -59,7 +62,7 @@ if [ -f $APT_CACHE_DIR/Aptfile ] && cmp -s $BUILD_DIR/Aptfile $APT_CACHE_DIR/Apt
 else
   # Aptfile changed or does not exist or STACK changed
   topic "Detected Aptfile or Stack changes, flushing cache"
-  rm -rf $APT_CACHE_DIR || true
+  rm -rf $APT_CACHE_DIR 2>/dev/null || true
   mkdir -p "$APT_CACHE_DIR/archives/partial"
   mkdir -p "$APT_STATE_DIR/lists/partial"
   mkdir -p "$APT_SOURCELIST_DIR"   # make dir for sources

@@ -59,7 +59,7 @@ if [ -f $APT_CACHE_DIR/Aptfile ] && cmp -s $BUILD_DIR/Aptfile $APT_CACHE_DIR/Apt
 else
   # Aptfile changed or does not exist or STACK changed
   topic "Detected Aptfile or Stack changes, flushing cache"
-  rm -rf $APT_CACHE_DIR
+  rm -rf $APT_CACHE_DIR || true
   mkdir -p "$APT_CACHE_DIR/archives/partial"
   mkdir -p "$APT_STATE_DIR/lists/partial"
   mkdir -p "$APT_SOURCELIST_DIR"   # make dir for sources
